@@ -1,5 +1,9 @@
+<script>
+	import '../app.css';
+</script>
+
 <svelte:head>
-    <title>ProClass</title>
+	<title>ProClass</title>
 </svelte:head>
 
-<slot />
+<slot></slot>
