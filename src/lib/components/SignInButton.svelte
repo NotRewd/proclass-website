@@ -1,1 +1,1 @@
-<button type="button" class="btn variant-filled-primary">Sign In</button>
+<a href="/signin" class="variant-filled-primary btn">Sign In</a>

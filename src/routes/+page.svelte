@@ -8,7 +8,7 @@
 	>
 		Welcome to ProClass
 	</h1>
-	<h2 class="h3 mb-10 font-extralight">A website for students, by students!</h2>
+	<h2 class="h3 mb-10 font-extralight">A website for all the materials you need!</h2>
 
 	<SignInButton />
 </div>

@@ -6,6 +6,20 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+
+	background-image: radial-gradient(
+		ellipse at top,
+		rgb(var(--color-surface-100)),
+		rgb(var(--color-surface-50))
+	);
+}
+
+.dark body {
+	background-image: radial-gradient(
+		ellipse at top,
+		rgb(var(--color-surface-500)),
+		rgb(var(--color-surface-900))
+	);
 }
 
 #background-image {
