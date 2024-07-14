@@ -31,3 +31,7 @@ body {
 	z-index: -1;
 	object-fit: cover;
 }
+
+.centered {
+	@apply mx-10 flex grow flex-col items-start justify-center;
+}
