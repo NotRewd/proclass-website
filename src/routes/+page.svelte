@@ -1,10 +1,14 @@
 <script>
-    import SignInButton from "$lib/components/SignInButton.svelte";
+	import SignInButton from '$lib/components/SignInButton.svelte';
 </script>
 
-<div class="flex flex-col mx-10 grow justify-center items-start">
-    <h1 class="h1 font-bold">Welcome to ProClass</h1>
-    <h2 class="h3 font-extralight mb-10">A website for school materials... yay!</h2>
+<div class="mx-10 flex grow flex-col items-start justify-center">
+	<h1
+		class="h1 bg-gradient-to-br from-blue-500 to-cyan-300 box-decoration-clone bg-clip-text font-bold text-transparent"
+	>
+		Welcome to ProClass
+	</h1>
+	<h2 class="h3 mb-10 font-extralight">A website for students, by students!</h2>
 
-    <SignInButton />
+	<SignInButton />
 </div>

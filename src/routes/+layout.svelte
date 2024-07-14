@@ -6,4 +6,4 @@
 	<title>ProClass</title>
 </svelte:head>
 
-<slot></slot>
+<slot />
