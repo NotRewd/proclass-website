@@ -10,7 +10,7 @@
 
 <SlideToggle
 	background="bg-surface-50"
-	active="bg-surface-900"
+	active="bg-surface-500"
 	size="sm"
 	checked={$theme === 'dark'}
 	on:change={(e) => toggleTheme(e.detail)}

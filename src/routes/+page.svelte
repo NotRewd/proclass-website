@@ -7,5 +7,5 @@
 
 	<h2 class="h3 mb-10 font-extralight">A website for all the materials you need!</h2>
 
-	<a href="/signin" class="variant-filled-primary btn">Sign In</a>
+	<a href="/login" class="variant-filled-primary btn">Sign In</a>
 </div>

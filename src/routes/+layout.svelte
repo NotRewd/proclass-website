@@ -9,7 +9,7 @@
 </svelte:head>
 
 <nav
-	class="bg-surface-200-700-token border-surface-300-600-token flex h-14 items-center justify-between border-b px-10 font-bold"
+	class="sticky flex h-14 items-center justify-between border-b border-b-surface-300 bg-surface-50 bg-opacity-50 px-10 font-bold backdrop-blur-sm dark:border-b-surface-500 dark:bg-surface-700"
 >
 	<header class="main-title-color">
 		<a href="/">ProClass</a>
