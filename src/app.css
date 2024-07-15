@@ -35,3 +35,11 @@ body {
 .centered {
 	@apply mx-10 flex grow flex-col items-start justify-center;
 }
+
+.main-title-color {
+	@apply bg-gradient-to-br from-blue-400 to-blue-800 box-decoration-clone bg-clip-text text-transparent;
+}
+
+.dark .main-title-color {
+	@apply bg-gradient-to-br from-blue-500 to-cyan-300 box-decoration-clone bg-clip-text text-transparent;
+}
