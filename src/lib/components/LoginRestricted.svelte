@@ -1,15 +1,19 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { user } from '$lib/shared/stores.js';
-	import { onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 
-	onMount(() => {
-		if ($user === null) {
+	const unsubscribe = user.subscribe((value) => {
+		if (!value) {
 			goto('/login');
 		}
 	});
+
+	onDestroy(unsubscribe);
 </script>
 
-<div class={$$restProps.class || ''}>
-	<slot />
-</div>
+{#if $user}
+	<div class={$$restProps.class || ''}>
+		<slot />
+	</div>
+{/if}
