@@ -5,6 +5,7 @@ const defaultTheme = 'dark';
 const currentTheme = browser ? localStorage.getItem('theme') : defaultTheme;
 
 export const theme = writable(currentTheme);
+export const user = writable(null);
 
 theme.subscribe((value) => {
 	if (browser) {

@@ -1,6 +1,8 @@
 <script>
 	import Icon from '@iconify/svelte';
-	import { account, ID } from '$lib/appwrite';
+	import { account } from '$lib/appwrite';
+	import { goto } from '$app/navigation';
+	import { user } from '$lib/shared/stores.js';
 
 	let busy = false;
 	let errorText = '';
@@ -10,6 +12,9 @@
 
 		try {
 			await account.createEmailPasswordSession(email, password);
+			const acc = await account.get();
+			user.set(acc);
+			goto('/home');
 		} catch (error) {
 			errorText = error.message;
 		}
@@ -35,7 +40,7 @@
 		<input
 			class="input px-3 py-2"
 			type="email"
-			name="text"
+			name="email"
 			placeholder="john@example.com"
 			required
 		/>
