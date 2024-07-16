@@ -12,7 +12,5 @@
 	}
 </script>
 
-<div class="mx-10 mt-20">
-	<MainTitle>Welcome back, {firstName}!</MainTitle>
-	<AnnouncementsPreview />
-</div>
+<MainTitle>Welcome back, {firstName}!</MainTitle>
+<AnnouncementsPreview />
