@@ -1,19 +1,29 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { account } from '$lib/appwrite';
 	import { user } from '$lib/shared/stores.js';
-	import { onDestroy } from 'svelte';
 
-	const unsubscribe = user.subscribe((value) => {
-		if (!value) {
+	import Loader from '$lib/components/Loader.svelte';
+
+	let signedIn = false;
+
+	onMount(checkSignedIn);
+
+	async function checkSignedIn() {
+		try {
+			await account.get();
+			signedIn = true;
+		} catch {
 			goto('/login');
 		}
-	});
-
-	onDestroy(unsubscribe);
+	}
 </script>
 
-{#if $user}
+{#if signedIn && $user}
 	<div class={$$restProps.class || ''}>
 		<slot />
 	</div>
+{:else}
+	<Loader />
 {/if}

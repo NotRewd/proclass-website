@@ -2,6 +2,7 @@
 	import Icon from '@iconify/svelte';
 	import { account } from '$lib/appwrite';
 	import { user } from '$lib/shared/stores.js';
+	import { goto } from '$app/navigation';
 
 	let busy = false;
 
@@ -9,6 +10,7 @@
 		busy = true;
 		await account.deleteSession('current');
 		user.set(null);
+		goto('/login');
 	}
 </script>
 
