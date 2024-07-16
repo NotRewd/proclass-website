@@ -3,20 +3,29 @@
 	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { user } from '$lib/shared/stores.js';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		await new Promise((r) => setTimeout(r, 1000));
+		if (!$user) {
+			goto('/login');
+		}
+	});
 </script>
 
 {#if $user}
 	<div class="flex grow">
-		<div>
+		<div class="border-r border-r-surface-300 dark:border-r-surface-500">
 			<AppRail aspectRatio="aspect-[4/3]">
 				<AppRailAnchor href="/home" selected={$page.url.pathname === '/home'}>
 					<Icon class="mx-auto mb-1 text-xl" icon="bi:house-door" />
 					<p>Home</p>
 				</AppRailAnchor>
-				<AppRailAnchor href="/test1">Test 1</AppRailAnchor>
-				<AppRailAnchor href="/test2">Test 2</AppRailAnchor>
 			</AppRail>
 		</div>
-		<slot />
+		<div class="grow">
+			<slot />
+		</div>
 	</div>
 {/if}

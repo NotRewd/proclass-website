@@ -1,6 +1,7 @@
 <script>
 	import MainTitle from '$lib/components/MainTitle.svelte';
 	import { user } from '$lib/shared/stores.js';
+	import AnnouncementsPreview from '$lib/components/AnnouncementsPreview.svelte';
 
 	let firstName;
 
@@ -13,4 +14,5 @@
 
 <div class="mx-10 mt-20">
 	<MainTitle>Welcome back, {firstName}!</MainTitle>
+	<AnnouncementsPreview />
 </div>

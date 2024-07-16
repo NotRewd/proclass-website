@@ -2,15 +2,12 @@
 	import MainTitle from '$lib/components/MainTitle.svelte';
 	import { user } from '$lib/shared/stores.js';
 	import { goto } from '$app/navigation';
-	import { onDestroy } from 'svelte';
 
-	const unsubscribe = user.subscribe((value) => {
-		if (value) {
+	$: {
+		if ($user) {
 			goto('/home');
 		}
-	});
-
-	onDestroy(unsubscribe);
+	}
 </script>
 
 <div class="centered">
