@@ -2,6 +2,9 @@
 	import '../app.css';
 	import NavItems from '$lib/components/NavItems.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import SignOutButton from '$lib/components/SignOutButton.svelte';
+
+	import { user } from '$lib/shared/stores.js';
 </script>
 
 <svelte:head>
@@ -17,6 +20,13 @@
 
 	<NavItems>
 		<ThemeToggle />
+		{#if $user}
+			<SignOutButton
+				variant="variant-ringed-primary"
+				busyVariant="variant-ringed-primary"
+				size="btn-sm"
+			/>
+		{/if}
 	</NavItems>
 </nav>
 
