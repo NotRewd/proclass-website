@@ -3,9 +3,14 @@
 	import NavItems from '$lib/components/NavItems.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import SignOutButton from '$lib/components/SignOutButton.svelte';
+	import PasswordConfirmationModal from '$lib/components/PasswordConfirmationModal.svelte';
 
 	import { user } from '$lib/shared/stores.js';
 	import { initializeStores, Modal } from '@skeletonlabs/skeleton';
+
+	const modalRegistry = {
+		passwordConfirmation: { ref: PasswordConfirmationModal }
+	};
 
 	initializeStores();
 </script>
@@ -14,7 +19,7 @@
 	<title>ProClass</title>
 </svelte:head>
 
-<Modal />
+<Modal components={modalRegistry} />
 
 <nav
 	class="sticky flex h-14 items-center justify-between border-b border-b-surface-300 bg-surface-50 bg-opacity-50 px-10 font-bold backdrop-blur-sm dark:border-b-surface-500 dark:bg-surface-700"
