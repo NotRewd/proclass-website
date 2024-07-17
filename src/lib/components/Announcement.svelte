@@ -4,7 +4,7 @@
 	export let date = 'Date';
 </script>
 
-<div class="card max-w-sm p-4">
+<div class="card max-h-96 max-w-sm p-4">
 	<header class="card-header text-xl font-semibold">{title}</header>
 	<section class="p-4">
 		<slot />

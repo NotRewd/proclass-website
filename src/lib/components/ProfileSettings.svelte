@@ -7,6 +7,7 @@
 	const modalStore = getModalStore();
 
 	let errorText = '';
+	let successText = '';
 	let busy = false;
 
 	async function handleSubmit(event) {
@@ -32,6 +33,7 @@
 		}
 
 		errorText = '';
+		successText = '';
 
 		const res = await new Promise((resolve) => {
 			const modal = {
@@ -50,7 +52,27 @@
 				await account.updateEmail(data.email, res.password);
 			} catch (error) {
 				errorText = error.message;
+
+				busy = false;
+				return;
 			}
+		}
+
+		if (data.password) {
+			try {
+				await account.updatePassword(data.password, res.password);
+			} catch (error) {
+				errorText = error.message;
+
+				busy = false;
+				return;
+			}
+		}
+
+		user.set(await account.get());
+
+		if (!errorText) {
+			successText = 'Profile updated successfully!';
 		}
 
 		busy = false;
@@ -87,6 +109,10 @@
 
 	{#if errorText}
 		<p class="text-sm text-red-500">{errorText}</p>
+	{/if}
+
+	{#if successText}
+		<p class="text-sm text-green-500">{successText}</p>
 	{/if}
 
 	{#if busy}
