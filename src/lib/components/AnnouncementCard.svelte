@@ -6,10 +6,10 @@
 
 <div class={'card flex flex-col p-4 ' + ($$restProps.class || '')}>
 	<header class="card-header text-xl font-semibold">{title}</header>
-	<section class="grow p-4">
+	<section class="grow overflow-hidden text-ellipsis p-4">
 		<slot />
 	</section>
-	<footer class="card-footer flex items-center justify-between">
+	<footer class="mt-4 flex items-center justify-between p-4">
 		<p class="font-bold">By {author}</p>
 		<p class="text-surface-500-400-token">{date}</p>
 	</footer>
