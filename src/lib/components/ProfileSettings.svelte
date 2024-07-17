@@ -22,6 +22,8 @@
 			confirmPassword: formData.get('confirmPassword')
 		};
 
+		if ($user.email === data.email && !data.password && !data.confirmPassword) return;
+
 		if (data.password !== data.confirmPassword) {
 			errorText = 'Passwords do not match!';
 			return;
@@ -44,6 +46,8 @@
 
 			modalStore.trigger(modal);
 		});
+
+		if (!res) return;
 
 		busy = true;
 

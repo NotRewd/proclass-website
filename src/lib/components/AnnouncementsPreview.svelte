@@ -1,9 +1,9 @@
 <script>
 	import { Query } from 'appwrite';
-	import Announcement from '$lib/components/Announcement.svelte';
+	import AnnouncementCard from '$lib/components/AnnouncementCard.svelte';
+	import AnnouncementCardSkeleton from '$lib/components/AnnouncementCardSkeleton.svelte';
 	import { databases } from '$lib/appwrite';
 	import { onMount } from 'svelte';
-	import Icon from '@iconify/svelte';
 
 	let announcements = [];
 
@@ -28,28 +28,24 @@
 		<a href="/announcements" class="border-surface-700-200-token btn btn-sm border">View more</a>
 	</div>
 
-	<div class="mt-5 flex flex-col gap-5 sm:flex-row">
+	<div class="mt-5 flex flex-col items-center gap-5 md:flex-row">
 		{#if busy}
-			<div class="card flex h-full max-h-96 w-full max-w-sm flex-col p-4">
-				<div class="placeholder"></div>
-				<div class="placeholder grow"></div>
-				<div class="flex justify-between">
-					<div class="placeholder"></div>
-					<div class="placeholder"></div>
-				</div>
-			</div>
+			<AnnouncementCardSkeleton class="h-72 w-full max-w-sm" />
+			<AnnouncementCardSkeleton class="h-72 w-full max-w-sm" />
+			<AnnouncementCardSkeleton class="h-72 w-full max-w-sm" />
 		{:else if announcements.length === 0}
 			<p class="text-surface-500">No announcements to show.</p>
 		{/if}
 
 		{#each announcements as announcement}
-			<Announcement
+			<AnnouncementCard
+				class="h-72 max-w-sm"
 				title={announcement.title}
 				author={announcement.author}
 				date={announcement.date}
 			>
 				<p>{announcement.content}</p>
-			</Announcement>
+			</AnnouncementCard>
 		{/each}
 	</div>
 </div>

@@ -1,16 +1,7 @@
 <script>
-	export let title = 'Announcement';
-	export let author = 'Author';
-	export let date = 'Date';
+	export let title;
+	export let date;
+	export let author;
 </script>
 
-<div class="card max-h-96 max-w-sm p-4">
-	<header class="card-header text-xl font-semibold">{title}</header>
-	<section class="p-4">
-		<slot />
-	</section>
-	<footer class="card-footer flex items-center justify-between">
-		<p class="font-bold">{author}</p>
-		<p class="text-surface-500-400-token">{date}</p>
-	</footer>
-</div>
+<div class="card p-4"></div>
