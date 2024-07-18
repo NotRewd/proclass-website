@@ -6,7 +6,7 @@
 
 <div class="flex justify-between">
 	<MainTitle>Announcements</MainTitle>
-	<TeamOnly allowedTeams={['admins']}>
+	<TeamOnly allowedTeams={['admins', 'announcement-creator']}>
 		<a href="/announcements/new" class="variant-filled-success btn btn-sm self-center">
 			New Announcement
 		</a>

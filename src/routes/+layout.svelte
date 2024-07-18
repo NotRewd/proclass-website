@@ -19,7 +19,12 @@
 	<title>ProClass</title>
 </svelte:head>
 
-<Modal components={modalRegistry} />
+<Modal
+	components={modalRegistry}
+	buttonNeutral="btn-sm variant-ringed-error"
+	buttonPositive="btn-sm variant-filled-primary"
+/>
+
 <Toast />
 
 <nav

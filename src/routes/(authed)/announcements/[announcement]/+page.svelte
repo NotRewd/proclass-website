@@ -3,14 +3,70 @@
 	import { page } from '$app/stores';
 	import { databases } from '$lib/appwrite';
 	import Icon from '@iconify/svelte';
+	import { goto } from '$app/navigation';
+	import { getToastStore, getModalStore } from '@skeletonlabs/skeleton';
+	import PermissionOnly from '$lib/components/PermissionOnly.svelte';
+
+	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
 	async function getDocument() {
 		return await databases.getDocument('main', 'announcements', $page.params.announcement);
 	}
 
+	async function printDocument() {
+		const res = await databases.getDocument('main', 'announcements', $page.params.announcement);
+		console.log(res);
+	}
+
+	printDocument();
+
 	let deleting = false;
 
-	async function handleDelete() {}
+	async function handleDelete() {
+		deleting = true;
+
+		await new Promise((resolve) => {
+			const modalSettings = {
+				type: 'confirm',
+				title: 'Delete Announcement',
+				body: 'Are you sure you want to delete this announcement?',
+				response: (response) => {
+					if (response) {
+						resolve();
+					} else {
+						deleting = false;
+					}
+				}
+			};
+
+			modalStore.trigger(modalSettings);
+		});
+
+		try {
+			await databases.deleteDocument('main', 'announcements', $page.params.announcement);
+		} catch (error) {
+			const toastSettings = {
+				message: error.message,
+				background: 'variant-filled-error'
+			};
+
+			toastStore.trigger(toastSettings);
+
+			deleting = false;
+
+			return;
+		}
+
+		const toastSettings = {
+			message: 'Announcement deleted successfully!',
+			background: 'variant-filled-success'
+		};
+
+		toastStore.trigger(toastSettings);
+
+		goto('/announcements');
+	}
 </script>
 
 {#await getDocument()}
@@ -29,19 +85,23 @@
 {:then document}
 	<div class="flex items-center justify-between">
 		<MainTitle>{document.title}</MainTitle>
-		<div class="flex gap-3">
-			<a
-				href={`/announcements/edit/${document.$id}`}
-				class="border-surface-900-50-token btn btn-sm border">Edit</a
-			>
-			{#if deleting}
-				<div class="variant-ringed-error btn btn-sm">
-					Deleting...
-					<Icon icon="line-md:loading-loop" />
-				</div>
-			{:else}
-				<button on:click={handleDelete} class="variant-ringed-error btn btn-sm"> Delete </button>
-			{/if}
+		<div class="flex shrink-0 gap-3">
+			<PermissionOnly permissionsList={document.$permissions} allowedPermissions={['update']}>
+				<a
+					href={`/announcements/edit/${document.$id}`}
+					class="border-surface-900-50-token btn btn-sm border">Edit</a
+				>
+			</PermissionOnly>
+			<PermissionOnly permissionsList={document.$permissions} allowedPermissions={['delete']}>
+				{#if deleting}
+					<div class="variant-ringed-error btn btn-sm">
+						Deleting...
+						<Icon icon="line-md:loading-loop" />
+					</div>
+				{:else}
+					<button on:click={handleDelete} class="variant-ringed-error btn btn-sm"> Delete </button>
+				{/if}
+			</PermissionOnly>
 		</div>
 	</div>
 	<section>{document.content}</section>
