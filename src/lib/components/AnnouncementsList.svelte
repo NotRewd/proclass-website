@@ -11,8 +11,8 @@
 
 	let paginationSettings = {
 		page: 0,
-		limit: 25,
-		size: 2,
+		size: -1,
+		limit: 5,
 		amounts: [5, 10, 25]
 	};
 
@@ -26,15 +26,11 @@
 
 		const { documents } = await databases.listDocuments('main', 'announcements', [
 			Query.limit(limit),
-			Query.offset(offset)
+			Query.offset(offset),
+			Query.orderDesc('$createdAt')
 		]);
 
-		for (const document of documents) {
-			document.date = new Date(document.date).toLocaleDateString('sk-SK');
-		}
-
 		announcements = documents;
-		paginationSettings.size = announcements.length;
 
 		busy = false;
 	}
@@ -49,14 +45,7 @@
 	{/if}
 
 	{#each announcements as announcement}
-		<AnnouncementCard
-			class="h-52"
-			title={announcement.title}
-			author={announcement.author}
-			date={announcement.date}
-		>
-			{announcement.content}
-		</AnnouncementCard>
+		<AnnouncementCard {announcement} class="h-52" />
 	{/each}
 </div>
 

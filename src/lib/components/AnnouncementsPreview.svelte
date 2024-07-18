@@ -10,12 +10,10 @@
 	let busy = true;
 
 	onMount(async () => {
-		const { documents } = await databases.listDocuments('main', 'announcements', [Query.limit(3)]);
-
-		for (const document of documents) {
-			document.date = new Date(document.date).toLocaleDateString('sk-SK');
-		}
-
+		const { documents } = await databases.listDocuments('main', 'announcements', [
+			Query.limit(3),
+			Query.orderDesc('$createdAt')
+		]);
 		announcements = documents;
 
 		busy = false;
@@ -38,14 +36,7 @@
 		{/if}
 
 		{#each announcements as announcement}
-			<AnnouncementCard
-				class="h-72 max-w-sm"
-				title={announcement.title}
-				author={announcement.author}
-				date={announcement.date}
-			>
-				<p>{announcement.content}</p>
-			</AnnouncementCard>
+			<AnnouncementCard class="h-72 w-full max-w-sm" {announcement} />
 		{/each}
 	</div>
 </div>
