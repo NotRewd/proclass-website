@@ -14,13 +14,6 @@
 		return await databases.getDocument('main', 'announcements', $page.params.announcement);
 	}
 
-	async function printDocument() {
-		const res = await databases.getDocument('main', 'announcements', $page.params.announcement);
-		console.log(res);
-	}
-
-	printDocument();
-
 	let deleting = false;
 
 	async function handleDelete() {
@@ -86,13 +79,21 @@
 	<div class="flex items-center justify-between">
 		<MainTitle>{document.title}</MainTitle>
 		<div class="flex shrink-0 gap-3">
-			<PermissionOnly permissionsList={document.$permissions} allowedPermissions={['update']}>
+			<PermissionOnly
+				permissionsList={document.$permissions}
+				allowedPermissions={['update']}
+				allowedTeams={['admins']}
+			>
 				<a
 					href={`/announcements/edit/${document.$id}`}
 					class="border-surface-900-50-token btn btn-sm border">Edit</a
 				>
 			</PermissionOnly>
-			<PermissionOnly permissionsList={document.$permissions} allowedPermissions={['delete']}>
+			<PermissionOnly
+				permissionsList={document.$permissions}
+				allowedPermissions={['delete']}
+				allowedTeams={['admins']}
+			>
 				{#if deleting}
 					<div class="variant-ringed-error btn btn-sm">
 						Deleting...

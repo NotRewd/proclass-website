@@ -5,40 +5,70 @@
 
 	export let permissionsList;
 	export let allowedPermissions;
+	export let allowedTeams = [];
 
 	let allowed = false;
 
-	const readPermission = permissionsList[0];
-	const updatePermission = permissionsList[1];
-	const deletePermission = permissionsList[2];
+	const readPermissions = permissionsList.filter((x) => x.includes('read('));
+	const updatePermissions = permissionsList.filter((x) => x.includes('update('));
+	const deletePermissions = permissionsList.filter((x) => x.includes('delete('));
 
 	onMount(async () => {
-		const userPermission = hasUserPermission();
-		const teamPermission = await hasTeamPermission();
+		console.log(permissionsList);
 
-		allowed = userPermission || teamPermission;
+		const userPermission = hasUserPermission();
+
+		if (userPermission) {
+			allowed = true;
+			return;
+		}
+
+		const res = await teams.list();
+		const teamsList = res.teams;
+
+		const teamPermission = isInAllowedTeams(teamsList);
+
+		allowed = teamPermission;
 	});
 
 	function hasUserPermission() {
-		if (allowedPermissions.includes('read') && !readPermission.includes($user.$id)) return false;
-		if (allowedPermissions.includes('update') && !updatePermission.includes($user.$id))
+		if (allowedPermissions.includes('read') && !readPermissions.some((x) => x.includes($user.$id)))
 			return false;
-		if (allowedPermissions.includes('delete') && !deletePermission.includes($user.$id))
+		if (
+			allowedPermissions.includes('update') &&
+			!updatePermissions.some((x) => x.includes(`"user:${$user.$id}"`))
+		)
+			return false;
+		if (
+			allowedPermissions.includes('delete') &&
+			!deletePermissions.some((x) => x.includes(`"user:${$user.$id}"`))
+		)
 			return false;
 
 		return true;
 	}
 
-	async function hasTeamPermission() {
-		const res = await teams.list();
+	function isInAllowedTeams(teamsList) {
+		for (const team of teamsList) {
+			if (allowedTeams.includes(team.$id)) return true;
+		}
 
-		console.log(res.teams, readPermission, updatePermission, deletePermission);
+		return false;
+	}
 
-		for (const team of res.teams) {
-			if (allowedPermissions.includes('read') && !readPermission.includes(team.$id)) return false;
-			if (allowedPermissions.includes('update') && !updatePermission.includes(team.$id))
+	function hasTeamPermission(teamsList) {
+		for (const team of teamsList) {
+			if (allowedPermissions.includes('read') && !readPermissions.some((x) => x.includes(team.$id)))
 				return false;
-			if (allowedPermissions.includes('delete') && !deletePermission.includes(team.$id))
+			if (
+				allowedPermissions.includes('update') &&
+				!updatePermissions.some((x) => x.includes(`"team:${team.$id}"`))
+			)
+				return false;
+			if (
+				allowedPermissions.includes('delete') &&
+				!deletePermissions.some((x) => x.includes(`"team:${team.$id}"`))
+			)
 				return false;
 		}
 
