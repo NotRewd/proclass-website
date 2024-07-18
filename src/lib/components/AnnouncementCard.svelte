@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation';
+
 	export let announcement;
 
 	const title = announcement.title;
@@ -6,7 +8,10 @@
 	const date = new Date(announcement.$createdAt).toLocaleDateString('sk-SK');
 </script>
 
-<div class={'card flex flex-col p-4 ' + ($$restProps.class || '')}>
+<a
+	href={`announcements/${announcement.$id}`}
+	class={'card flex flex-col p-4 ' + ($$restProps.class || '')}
+>
 	<header class="card-header text-xl font-semibold">{title}</header>
 	<section class="grow overflow-hidden text-ellipsis p-4">
 		{announcement.content}
@@ -15,4 +20,4 @@
 		<p class="font-bold">By {author}</p>
 		<p class="text-surface-500-400-token">{date}</p>
 	</footer>
-</div>
+</a>

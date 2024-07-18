@@ -1,7 +1,7 @@
 <script>
 	import MainTitle from '$lib/components/MainTitle.svelte';
-	import NewAnnouncementForm from '$lib/components/NewAnnouncementForm.svelte';
+	import EditAnnouncementForm from '$lib/components/EditAnnouncementForm.svelte';
 </script>
 
 <MainTitle>New Announcement</MainTitle>
-<NewAnnouncementForm />
+<EditAnnouncementForm />

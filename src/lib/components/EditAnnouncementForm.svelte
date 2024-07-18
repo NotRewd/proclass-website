@@ -7,6 +7,8 @@
 
 	const toastStore = getToastStore();
 
+	export let announcement;
+
 	let busy = false;
 	let errorText = '';
 
@@ -23,10 +25,16 @@
 		};
 
 		try {
-			await databases.createDocument('main', 'announcements', ID.unique(), documentData);
+			if (announcement) {
+				await databases.updateDocument('main', 'announcements', announcement.$id, documentData);
+			} else {
+				await databases.createDocument('main', 'announcements', ID.unique(), documentData);
+			}
 
 			const toastSettings = {
-				message: 'Successfully created new announcement!',
+				message: announcement
+					? 'Announcement updated successfully!'
+					: 'Announcement created successfully!',
 				background: 'variant-filled-success'
 			};
 
@@ -43,12 +51,23 @@
 <form on:submit={handleSubmit} class="flex flex-col gap-5">
 	<label class="label">
 		<span>Title</span>
-		<input name="title" type="text" class="input" required />
+		<input
+			name="title"
+			type="text"
+			class="input"
+			value={announcement ? announcement.title : ''}
+			required
+		/>
 	</label>
 
 	<label class="label">
 		<span>Content</span>
-		<textarea name="content" class="textarea h-80 min-h-20" required />
+		<textarea
+			name="content"
+			class="textarea h-80 min-h-20"
+			value={announcement ? announcement.content : ''}
+			required
+		/>
 	</label>
 
 	{#if errorText}
@@ -57,10 +76,12 @@
 
 	{#if busy}
 		<div class="variant-ghost-success btn btn-sm self-start">
-			Creating...
+			{announcement ? 'Applying changes...' : 'Creating...'}
 			<Icon icon="line-md:loading-loop" />
 		</div>
 	{:else}
-		<button type="submit" class="variant-filled-success btn btn-sm self-start">Create</button>
+		<button type="submit" class="variant-filled-success btn btn-sm self-start"
+			>{announcement ? 'Apply Changes' : 'Create'}</button
+		>
 	{/if}
 </form>

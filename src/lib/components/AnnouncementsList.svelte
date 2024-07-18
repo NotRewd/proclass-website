@@ -4,40 +4,47 @@
 	import { Query } from 'appwrite';
 	import { databases } from '$lib/appwrite';
 	import { onMount } from 'svelte';
-	import { Paginator } from '@skeletonlabs/skeleton';
+	import Icon from '@iconify/svelte';
+
+	const LIMIT = 25;
 
 	let announcements = [];
 	let busy = true;
+	let loadingMore = false;
 
-	let paginationSettings = {
-		page: 0,
-		size: -1,
-		limit: 5,
-		amounts: [5, 10, 25]
-	};
+	let currentPage = 0;
+	let showMore = false;
 
-	$: () =>
-		loadDocuments(paginationSettings.page * paginationSettings.limit, paginationSettings.limit);
+	onMount(async () => {
+		await loadDocuments(0);
+		busy = false;
+	});
 
-	onMount(() => loadDocuments(0, paginationSettings.limit));
+	async function loadNext() {
+		if (busy || loadingMore) return;
+		loadingMore = true;
 
-	async function loadDocuments(offset, limit) {
-		busy = true;
+		currentPage++;
+		await loadDocuments(currentPage * LIMIT);
 
+		loadingMore = false;
+	}
+
+	async function loadDocuments(offset) {
 		const { documents } = await databases.listDocuments('main', 'announcements', [
-			Query.limit(limit),
+			Query.limit(LIMIT),
 			Query.offset(offset),
 			Query.orderDesc('$createdAt')
 		]);
 
-		announcements = documents;
-
-		busy = false;
+		announcements = announcements.concat(documents);
+		showMore = documents.length === LIMIT;
 	}
 </script>
 
 <div class="mb-10 flex flex-col gap-5" showPreviousNextButtons>
 	{#if busy}
+		<AnnouncementCardSkeleton class="h-52" />
 		<AnnouncementCardSkeleton class="h-52" />
 		<AnnouncementCardSkeleton class="h-52" />
 	{:else if announcements.length === 0}
@@ -47,10 +54,21 @@
 	{#each announcements as announcement}
 		<AnnouncementCard {announcement} class="h-52" />
 	{/each}
-</div>
 
-<Paginator
-	bind:settings={paginationSettings}
-	showNumerals
-	controlVariant="variant-filled-surface"
-/>
+	{#if !busy}
+		{#if loadingMore}
+			<div class="border-surface-900-50-token btn btn-sm self-center border">
+				Loading more...
+				<Icon icon="line-md:loading-loop" />
+			</div>
+		{:else if showMore}
+			<button class="border-surface-900-50-token btn btn-sm self-center border" on:click={loadNext}>
+				Load More
+			</button>
+		{:else}
+			<p class="text-surface-600-300-token self-center font-bold italic">
+				No more announcements to show.
+			</p>
+		{/if}
+	{/if}
+</div>
