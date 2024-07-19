@@ -4,6 +4,9 @@
   import Icon from "@iconify/svelte";
   import { getToastStore, TabGroup, Tab } from "@skeletonlabs/skeleton";
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
+  import { marked } from "marked";
+  import DOMPurify from "dompurify";
 
   const toastStore = getToastStore();
 
@@ -12,9 +15,15 @@
   let busy = false;
   let errorText = "";
 
-  let contentValue;
+  let contentValue = "";
 
   let activeTab = 0;
+
+  onMount(() => {
+    if (announcement) {
+      contentValue = announcement.content;
+    }
+  });
 
   async function handleSubmit(event) {
     busy = true;
@@ -24,7 +33,7 @@
 
     const documentData = {
       title: formData.get("title"),
-      content: formData.get("content"),
+      content: contentValue,
       author: $user.name,
     };
 
@@ -88,7 +97,9 @@
             name="content"
           />
         {:else}
-          <div class="textarea h-72">{@html contentValue}</div>
+          <div class="card py-2 px-3">
+            {@html DOMPurify.sanitize(marked.parse(contentValue))}
+          </div>
         {/if}
       </svelte:fragment>
     </TabGroup>
