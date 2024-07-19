@@ -119,7 +119,7 @@
       </PermissionOnly>
     </div>
   </div>
-  <MarkdownPreview value={document.content} />
+  <MarkdownPreview value={document.content} class="mb-12" />
 {:catch error}
   <div class="flex flex-col items-center gap-5">
     <h2 class="h2 font-bold">Oops, an error occured!</h2>

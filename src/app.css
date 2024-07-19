@@ -44,3 +44,11 @@ body {
 .textarea {
 	@apply bg-white dark:bg-surface-800;
 }
+
+.opacity-fade {
+background: linear-gradient(rgba(211, 211, 211, 0) 50%, rgba(211, 211, 211, 1));
+}
+
+.dark .opacity-fade {
+background: linear-gradient(rgba(21, 21, 21, 0) 50%, rgba(21, 21, 21, 1));
+}

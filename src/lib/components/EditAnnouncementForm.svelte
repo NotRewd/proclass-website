@@ -24,6 +24,21 @@
     }
   });
 
+  function onKeydown(event) {
+    if (event.key == "Tab") {
+      event.preventDefault();
+
+      const start = event.target.selectionStart;
+      const end = event.target.selectionEnd;
+
+      event.target.value =
+        event.target.value.substring(0, start) +
+        "\t" +
+        event.target.value.substring(end);
+      event.target.selectionStart = event.target.selectionEnd = start + 1;
+    }
+  }
+
   async function handleSubmit(event) {
     busy = true;
 
@@ -92,7 +107,8 @@
         {#if activeTab === 0}
           <textarea
             bind:value={contentValue}
-            class="textarea h-72"
+            on:keydown={onKeydown}
+            class="textarea h-72 font-mono whitespace-pre"
             name="content"
           />
         {:else}

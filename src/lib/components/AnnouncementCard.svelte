@@ -10,13 +10,14 @@
 
 <a
   href={`announcements/${announcement.$id}`}
-  class={"card flex flex-col p-4 " + ($$restProps.class || "")}
+  class={"card flex flex-col p-4 hover:scale-[1.02] transition-transform " +
+    ($$restProps.class || "")}
 >
   <header class="card-header text-xl font-semibold">{title}</header>
-  <MarkdownPreview
-    class="grow overflow-hidden text-ellipsis p-4"
-    value={announcement.content}
-  />
+  <div class="grow relative overflow-hidden text-ellipsis p-4">
+    <MarkdownPreview value={announcement.content} />
+    <div class="absolute left-0 top-0 w-full h-full z-20 opacity-fade" />
+  </div>
   <footer class="mt-4 flex items-center justify-between p-4">
     <p class="font-bold">By {author}</p>
     <p class="text-surface-500-400-token">{date}</p>
