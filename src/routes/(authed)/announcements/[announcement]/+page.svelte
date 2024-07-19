@@ -6,8 +6,7 @@
   import { goto } from "$app/navigation";
   import { getToastStore, getModalStore } from "@skeletonlabs/skeleton";
   import PermissionOnly from "$lib/components/PermissionOnly.svelte";
-  import { marked } from "marked";
-  import DOMPurify from "dompurify";
+  import MarkdownPreview from "$lib/components/MarkdownPreview.svelte";
 
   const toastStore = getToastStore();
   const modalStore = getModalStore();
@@ -120,7 +119,7 @@
       </PermissionOnly>
     </div>
   </div>
-  <section>{@html DOMPurify.sanitize(marked.parse(document.content))}</section>
+  <MarkdownPreview value={document.content} />
 {:catch error}
   <div class="flex flex-col items-center gap-5">
     <h2 class="h2 font-bold">Oops, an error occured!</h2>

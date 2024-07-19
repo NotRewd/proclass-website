@@ -5,8 +5,7 @@
   import { getToastStore, TabGroup, Tab } from "@skeletonlabs/skeleton";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { marked } from "marked";
-  import DOMPurify from "dompurify";
+  import MarkdownPreview from "$lib/components/MarkdownPreview.svelte";
 
   const toastStore = getToastStore();
 
@@ -98,7 +97,7 @@
           />
         {:else}
           <div class="card py-2 px-3">
-            {@html DOMPurify.sanitize(marked.parse(contentValue))}
+            <MarkdownPreview value={contentValue} />
           </div>
         {/if}
       </svelte:fragment>

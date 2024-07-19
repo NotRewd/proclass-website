@@ -1,6 +1,5 @@
 <script>
-  import { marked } from "marked";
-  import DOMPurify from "dompurify";
+  import MarkdownPreview from "$lib/components/MarkdownPreview.svelte";
 
   export let announcement;
 
@@ -14,9 +13,10 @@
   class={"card flex flex-col p-4 " + ($$restProps.class || "")}
 >
   <header class="card-header text-xl font-semibold">{title}</header>
-  <section class="grow overflow-hidden text-ellipsis p-4">
-    {@html DOMPurify.sanitize(marked.parse(announcement.content))}
-  </section>
+  <MarkdownPreview
+    class="grow overflow-hidden text-ellipsis p-4"
+    value={announcement.content}
+  />
   <footer class="mt-4 flex items-center justify-between p-4">
     <p class="font-bold">By {author}</p>
     <p class="text-surface-500-400-token">{date}</p>
